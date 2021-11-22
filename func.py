@@ -277,12 +277,19 @@ def screen_capture(driver, path):
     print('备案历史截图已保存')
 
 
-def wechat_notification(userName, sckey):
-    with request.urlopen(
-            quote('https://sctapi.ftqq.com/' + sckey + '.send?title=成功报备&desp=学号' +
-                  str(userName) + '成功报备',
-                  safe='/:?=&')) as response:
-        response = json.loads(response.read().decode('utf-8'))
+def wechat_notification(userName, sckey, result):
+    if result:
+        with request.urlopen(
+                quote('https://sctapi.ftqq.com/' + sckey + '.send?title=成功报备&desp=学号' +
+                    str(userName) + '成功报备',
+                    safe='/:?=&')) as response:
+            response = json.loads(response.read().decode('utf-8'))
+    else:
+        with request.urlopen(
+                quote('https://sctapi.ftqq.com/' + sckey + '.send?title=失败报备&desp=学号' +
+                    str(userName) + '报备失败',
+                    safe='/:?=&')) as response:
+            response = json.loads(response.read().decode('utf-8'))
     # if response['error'] == 'SUCCESS':
     #     print('微信通知成功！')
     # else:
@@ -291,26 +298,29 @@ def wechat_notification(userName, sckey):
 
 def run(driver, userName, password, campus, mail_address, phone_number, reason, detail, destination, track,
         habitation, district, street, capture, path, wechat, sckey):
-    login(driver, userName, password)
-    print('=================================')
-
-    go_to_application_out(driver)
-    fill_out(driver, campus, mail_address, phone_number, reason, detail, destination, track)
-    print('=================================')
-
-    go_to_application_in(driver, userName, password)
-    fill_in(driver, campus, mail_address, phone_number, reason, detail, habitation, district, street)
-    print('=================================')
-
-    if capture:
-        screen_capture(driver, path)
+    try:
+        login(driver, userName, password)
         print('=================================')
 
-    if wechat:
-        wechat_notification(userName, sckey)
+        go_to_application_out(driver)
+        fill_out(driver, campus, mail_address, phone_number, reason, detail, destination, track)
         print('=================================')
 
-    print('报备成功！\n')
+        go_to_application_in(driver, userName, password)
+        fill_in(driver, campus, mail_address, phone_number, reason, detail, habitation, district, street)
+        print('=================================')
+
+        if capture:
+            screen_capture(driver, path)
+            print('=================================')
+
+        if wechat:
+            wechat_notification(userName, sckey, True)
+            print('=================================')
+
+        print('报备成功！\n')
+    except:
+        wechat_notification(userName, sckey, False)
 
 
 if __name__ == '__main__':
