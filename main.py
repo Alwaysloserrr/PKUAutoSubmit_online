@@ -29,7 +29,7 @@ if __name__ == '__main__':
 
     parser = ArgumentParser()
     parser.add_argument('--ID', type=str)
-    parser.add_argument('--PASS', type=str)
+    parser.add_argument('--PASSWORD', type=str)
     parser.add_argument('--MAIL_ADDRESS', type=str)
     parser.add_argument('--PHONE_NUMBER', type=str)
     parser.add_argument('--SENDKEY', type=str)
