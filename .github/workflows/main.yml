@@ -26,7 +26,7 @@ jobs:
         
       - name: 'Working'
         run:
-          python main.py --ID ${{secrets.ID}} --PASS ${{secrets.PASSWORD}} --MAIL_ADDRESS ${{secrets.MAIL_ADDRESS}} --PHONE_NUMBER ${{secrets.PHONE_NUMBER}} --SENDKEY ${{secrets.SENDKEY}}
+          python main.py --ID ${{secrets.ID}} --PASS ${{secrets.PASSWORD}} --MAIL_ADDRESS ${{secrets.MAIL_ADDRESS}} --PHONE_NUMBER ${{secrets.PHONE_NUMBER}} --SENDKEY ${{secrets.SENDKEY}};
           python main.py --ID ${{secrets.IDH}} --PASS ${{secrets.PASSWORDH}} --MAIL_ADDRESS ${{secrets.MAIL_ADDRESSH}} --PHONE_NUMBER ${{secrets.PHONE_NUMBERH}} --SENDKEY ${{secrets.SENDKEY}}
           
 
